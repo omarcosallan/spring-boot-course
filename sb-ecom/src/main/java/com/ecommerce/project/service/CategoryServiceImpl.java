@@ -10,7 +10,6 @@ import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
-//    private List<Category> categories = new ArrayList<>();
 
     private CategoryRepository categoryRepository;
 
