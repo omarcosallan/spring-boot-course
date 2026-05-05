@@ -22,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
         this.modelMapper = modelMapper;
     }
 
-    public CategoryResponse getAllCategories() {
+    public CategoryResponse getAllCategories(Integer pageNumber, Integer pageSize) {
         List<Category> categories = categoryRepository.findAll();
         if (categories.isEmpty()) {
             throw new APIException("No category created till now");
