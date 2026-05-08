@@ -22,6 +22,8 @@ public class SocialProfile {
     @JsonIgnore
     private SocialUser user;
 
+    private String description;
+
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
