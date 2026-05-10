@@ -1,5 +1,6 @@
 package com.ecommerce.project.service;
 
+import com.ecommerce.project.exceptions.APIException;
 import com.ecommerce.project.exceptions.ResourceNotFoundException;
 import com.ecommerce.project.model.Category;
 import com.ecommerce.project.model.Product;
@@ -33,6 +34,13 @@ public class ProductServiceImpl implements ProductService {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", categoryId));
 
+        productRepository.findByProductNameIgnoreCaseAndCategory(
+                productDTO.getProductName(),
+                category
+        ).ifPresent(p -> {
+            throw new APIException("Product already exist");
+        });
+
         Product product = modelMapper.map(productDTO, Product.class);
         product.setImage("default.png");
         product.setCategory(category);
@@ -46,6 +54,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse getAllProducts() {
         List<Product> products = productRepository.findAll();
+
+        if (products.isEmpty()) {
+            throw new APIException("No products created till now");
+        }
+
         List<ProductDTO> productDTOS = products.stream()
                 .map(product -> modelMapper.map(product, ProductDTO.class))
                 .toList();
@@ -61,6 +74,11 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", categoryId));
 
         List<Product> products = productRepository.findByCategoryOrderByPriceAsc(category);
+
+        if (products.isEmpty()) {
+            throw new APIException("No products created till now");
+        }
+
         List<ProductDTO> productDTOS = products.stream()
                 .map(product -> modelMapper.map(product, ProductDTO.class))
                 .toList();
@@ -72,6 +90,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse searchByKeyword(String keyword) {
         List<Product> products = productRepository.findByProductNameLikeIgnoreCase("%" + keyword + "%");
+
+        if (products.isEmpty()) {
+            throw new APIException("No products created till now");
+        }
+
         List<ProductDTO> productDTOS = products.stream()
                 .map(product -> modelMapper.map(product, ProductDTO.class))
                 .toList();
