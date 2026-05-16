@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
         Role userRole = roleRepository.findByRoleName(AppRole.ROLE_USER)
                 .orElseGet(() -> {
                     Role newRole = new Role();
-                    newRole.setRole(AppRole.ROLE_USER);
+                    newRole.setRoleName(AppRole.ROLE_USER);
                     return roleRepository.save(newRole);
                 });
 

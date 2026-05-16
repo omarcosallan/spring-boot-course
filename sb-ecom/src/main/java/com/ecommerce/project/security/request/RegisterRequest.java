@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import java.util.Set;
-
 @Data
 public class RegisterRequest {
     @NotBlank
@@ -17,8 +15,6 @@ public class RegisterRequest {
     @Size(max = 50)
     @Email
     private String email;
-
-    private Set<String> roles;
 
     @NotBlank
     @Size(min = 6, max = 120)
