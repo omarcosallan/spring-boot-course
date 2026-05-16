@@ -1,9 +1,12 @@
 package com.ecommerce.project.controller;
 
+import com.ecommerce.project.payload.UserDTO;
 import com.ecommerce.project.security.jwt.JwtUtils;
 import com.ecommerce.project.security.request.LoginRequest;
+import com.ecommerce.project.security.request.RegisterRequest;
 import com.ecommerce.project.security.response.UserInfoResponse;
 import com.ecommerce.project.security.service.UserDetailsImpl;
+import com.ecommerce.project.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +29,7 @@ public class AuthController {
 
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
+    private final UserService userService;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -54,5 +58,11 @@ public class AuthController {
                 userDetails.getId(), userDetails.getUsername(), roles, jwtToken);
 
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<UserDTO> register(@Valid @RequestBody RegisterRequest registerRequest) {
+        UserDTO user = userService.register(registerRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 }

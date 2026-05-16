@@ -19,9 +19,9 @@ public class Role {
     @ToString.Exclude
     @Enumerated(EnumType.STRING)
     @Column(length = 20, name = "role_name")
-    private AppRole role;
+    private AppRole roleName;
 
-    public Role(AppRole role) {
-        this.role = role;
+    public Role(AppRole roleName) {
+        this.roleName = roleName;
     }
 }
